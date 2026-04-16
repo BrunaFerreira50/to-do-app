@@ -1,0 +1,146 @@
+git commit -m "CÓDIGO DO CSS"
+
+* {
+    /* Garante que padding e bordas não aumentem o tamanho real dos elementos */
+    box-sizing: border-box;
+}
+
+:root {
+    /* Centralização das cores em variáveis para facilitar manutenção */
+    --primary-color: #C50337;
+    --bg-dark: #02060E;
+    --text-main: #ffffff;
+    --text-task: #333333;
+    --focus-ring: #007bff;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--bg-dark), var(--primary-color));
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centraliza o conteúdo verticalmente na viewport */
+    margin: 0;
+    min-height: 100vh;
+}
+
+.container {
+    background: var(--bg-dark);
+    width: 100%;
+    max-width: 450px; /* Mantém o tamanho ideal em telas grandes */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin: 20px; /* Margem de segurança para telas pequenas */
+}
+
+h1 {
+    color: var(--primary-color);
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+.input-section {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: stretch; /* Faz com que todos os itens tenham a mesma altura */
+}
+
+input[type="text"], select {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    color: #333;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus, select:focus {
+    border-color: var(--primary-color);
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
+input[type="text"] { flex: 2; }
+select { flex: 1; }
+
+button#addTaskBtn {
+    flex: 1; 
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: filter 0.3s;
+    white-space: nowrap; /* Impede que o texto do botão quebre linha */
+}
+
+button#addTaskBtn:hover { filter: brightness(1.2); }
+button#addTaskBtn:focus-visible {
+    outline: 2px solid white;
+    outline-offset: -4px;
+}
+
+ul { list-style: none; padding: 0; }
+
+li {
+    background: #fff;
+    color: var(--text-task); /* Correção da visibilidade do texto */
+    border-bottom: 1px solid #f0f0f0;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    width: 100%; /* Garante que os itens da lista ocupem toda a largura do bloco */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: opacity 0.3s, transform 0.3s;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.task-info { display: flex; align-items: center; gap: 10px; }
+
+/* Estado de tarefa concluída: aplica riscado e diminui a opacidade da cor */
+.completed span { text-decoration: line-through; color: #999; }
+
+/* Badges de prioridade: estilo base */
+.badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Cores específicas para cada nível de urgência */
+.badge.baixa { background: #e1f5fe; color: #0288d1; }
+.badge.média { background: #fff3e0; color: #f57c00; }
+.badge.alta { background: #ffebee; color: #d32f2f; }
+
+/* Botão de excluir discreto que ganha destaque ao passar o mouse */
+.delete-btn {
+    background: none; border: none; color: #ccc; cursor: pointer; font-size: 18px;
+}
+.delete-btn:hover { color: #d32f2f; } /* Vermelho apenas no hover */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
