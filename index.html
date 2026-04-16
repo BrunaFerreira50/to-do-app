@@ -1,1 +1,102 @@
+git commit -m "CÓDIGO DO HTML"
+<!DOCTYPE html> <!-- Declaração do tipo de documento HTML5 -->
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8"> <!-- Define a codificação de caracteres para UTF-8 (suporta acentos) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Garante responsividade em dispositivos móveis -->
+    <link rel="stylesheet" href="./style.css"> <!-- Importa o arquivo de estilos externo -->
+    <title>Gerenciador de Tarefas Profissional</title>
+</head>
+<body>
+    <label for="taskInput" class="sr-only"></label>
+    <!-- Main: Tag semântica para o conteúdo principal da página -->
+    <main class="container">
+        <h1>To-Do List</h1>
+        
+        <!-- Form: Permite que o usuário envie os dados ao apertar "Enter" -->
+        <form class="input-section" id="todoForm">
+            <!-- Campo de texto para a descrição da tarefa -->
+            <label for="taskInput" class="sr-only">Descrição da tarefa</label>
+            <input type="text" id="taskInput" placeholder="Digite sua tarefa..." required>
+            
+            <!-- Menu suspenso para escolher o nível de urgência -->
+            <label for="priorityInput" class="sr-only">Prioridade</label>
+            <select id="priorityInput" aria-label="Selecionar Prioridade">
+                <option value="Baixa">Baixa</option>
+                <option value="Média">Média</option>
+                <option value="Alta">Alta</option>
+            </select>
+            
+            <!-- Botão para disparar a função de adicionar tarefa -->
+            <button type="submit" id="addTaskBtn">Adicionar</button>
+        </form>
+
+        <!-- Lista não ordenada onde as tarefas serão injetadas via JavaScript -->
+        <ul id="todoList" aria-live="polite">
+            <!-- As tarefas aparecerão aqui dinamicamente -->
+        </ul>
+    </main>
+
+    <script>
+        const todoForm = document.getElementById('todoForm');
+        const taskInput = document.getElementById('taskInput');
+        const priorityInput = document.getElementById('priorityInput');
+        const todoList = document.getElementById('todoList');
+
+        /**
+         * Cria um elemento de tarefa de forma segura e anexa os eventos necessários.
+         */
+        function createTaskElement(text, priority) {
+            const li = document.createElement('li');
+            
+            const taskInfo = document.createElement('div');
+            taskInfo.className = 'task-info';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.setAttribute('aria-label', `Marcar tarefa "${text}" como concluída`);
+            checkbox.addEventListener('change', () => li.classList.toggle('completed', checkbox.checked));
+
+            const span = document.createElement('span');
+            span.textContent = text; // Seguro contra XSS
+
+            const badge = document.createElement('span');
+            badge.className = `badge ${priority.toLowerCase()}`;
+            badge.textContent = priority;
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.innerHTML = '&times;';
+            deleteBtn.setAttribute('aria-label', `Excluir tarefa "${text}"`);
+            deleteBtn.addEventListener('click', () => {
+                li.style.opacity = '0';
+                setTimeout(() => li.remove(), 300); // Transição suave antes de remover
+            });
+
+            taskInfo.append(checkbox, span, badge);
+            li.append(taskInfo, deleteBtn);
+            
+            return li;
+        }
+
+        todoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const text = taskInput.value.trim();
+            const priority = priorityInput.value;
+
+            if (!text) return;
+
+            const taskElement = createTaskElement(text, priority);
+            todoList.appendChild(taskElement);
+            
+            taskInput.value = "";
+            taskInput.focus();
+        });
+        
+    </script>
+</body>
+</html>
+
+
 
